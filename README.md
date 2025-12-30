@@ -163,3 +163,4 @@ Para cualquier problema con el deployment, verifica:
 - **Plataforma objetivo**: Cloudflare Pages
 - **Email**: contacto@bks-music.com
 - **Año**: Dinámico (se actualiza automáticamente)
+Deploy test

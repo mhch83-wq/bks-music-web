@@ -83,6 +83,18 @@ const works: WorkItem[] = [
     videoId: "H3IWhuBUGu4",
     thumbnail: "",
   },
+  {
+    id: 13,
+    title: "Work 13",
+    videoId: "m0gspTiL6XU",
+    thumbnail: "",
+  },
+  {
+    id: 14,
+    title: "Work 14",
+    videoId: "x2Zwc82E76s",
+    thumbnail: "",
+  },
 ];
 
 export default function WorkGrid() {

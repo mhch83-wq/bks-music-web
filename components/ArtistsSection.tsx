@@ -32,7 +32,9 @@ const artists = [
   "Sweet California",
   "Guzmen",
   "Kapla y Miky",
-  "Lennis Rodriguez"
+  "Lennis Rodriguez",
+  "Mar Lucas",
+  "Antonio José"
 ];
 
 export default function ArtistsSection() {

@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fuente Gefika */
+@font-face {
+  font-family: 'Gefika';
+  src: url('/fonts/gefika.woff2') format('woff2'),
+       url('/fonts/gefika.woff') format('woff'),
+       url('/fonts/gefika.ttf') format('truetype'),
+       url('/fonts/gefika.otf') format('opentype'),
+       local('Gefika'), local('Gefika-Regular');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gefika';
+  src: url('/fonts/gefika-bold.woff2') format('woff2'),
+       url('/fonts/gefika-bold.woff') format('woff'),
+       url('/fonts/gefika-bold.ttf') format('truetype'),
+       url('/fonts/gefika-bold.otf') format('opentype'),
+       local('Gefika Bold'), local('Gefika-Bold');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gefika';
+  src: url('/fonts/gefika-black.woff2') format('woff2'),
+       url('/fonts/gefika-black.woff') format('woff'),
+       url('/fonts/gefika-black.ttf') format('truetype'),
+       url('/fonts/gefika-black.otf') format('opentype'),
+       local('Gefika Black'), local('Gefika-Black');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #1e1e1e;
+  --foreground: #ffffff;
+}
+
+body {
+  background: #1e1e1e;
+  min-height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--foreground);
+  font-family: var(--font-montserrat);
+}
+
+/* Asegurar que no haya padding o margin en móvil para Gemini hero */
+@media (max-width: 767px) {
+  html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+  
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+  
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  
+  section#home[data-gemini-active="true"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  /* Forzar que el contenedor Gemini ocupe todo el ancho */
+  [data-gemini="true"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 100vw !important;
+    transform: translateX(0) !important;
+    box-sizing: border-box !important;
+  }
+  
+  [data-gemini="true"] > div {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+  
+  [data-gemini="true"] img {
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+/* Subtle text treatments for hero heading */
+.text-shadow-subtle {
+  text-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.6),
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.headline-subtle-outline {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  text-stroke: 1px rgba(255, 255, 255, 0.3);
+}
+
+/* Fondo negro sólido para la sección quienes-somos sin degradados */
+#quienes-somos {
+  background-color: #000000 !important;
+  background: #000000 !important;
+  background-image: none !important;
+}
+
+#quienes-somos::before,
+#quienes-somos::after {
+  display: none !important;
+}
+
+
+

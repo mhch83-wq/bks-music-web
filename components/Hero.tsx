@@ -441,34 +441,6 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
         </div>
       </div>
 
-      {/* Selector de fondos */}
-      {(isMobile ? HERO_BACKGROUNDS.filter(bg => bg.id !== "bg24" && bg.id !== "bg14" && !bg.desktopOnly) : HERO_BACKGROUNDS.filter(bg => !bg.mobileOnly && bg.id !== "bg24")).length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
-          <div className="flex items-center gap-2 px-3 py-2 bg-black/50 backdrop-blur-md rounded-full border border-white/20">
-            {(isMobile ? HERO_BACKGROUNDS.filter(bg => bg.id !== "bg24" && bg.id !== "bg14" && !bg.desktopOnly) : HERO_BACKGROUNDS.filter(bg => !bg.mobileOnly && bg.id !== "bg24")).map((bg) => (
-              <button
-                key={bg.id}
-                onClick={() => {
-                  setActiveBgId(bg.id);
-                  if (onActiveBgChange) {
-                    onActiveBgChange(bg.id);
-                  }
-                }}
-                className={`text-xs font-semibold uppercase tracking-[0.18em] px-3 py-1 rounded-full transition ${
-                  activeBgId === bg.id
-                    ? "bg-white text-black"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-                aria-label={`Activar fondo ${bg.label}`}
-              >
-                {bg.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-
       {/* Social Icons - ocultos por petición */}
       <div className="hidden">
         {/* Spotify Icon */}

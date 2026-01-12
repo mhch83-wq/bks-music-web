@@ -3,16 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const HERO_BACKGROUNDS = [
-  { id: "bg24", label: "A", src: "/hero-options/hero-bg-24.png", mobileOnly: false },
-  { id: "bg14", label: "D", src: "/hero-options/hero-bg-14.png", mobileOnly: false },
-  { id: "bg20", label: "H", src: "/hero-options/hero-bg-20.png", mobileOnly: false },
-  { id: "bgDesktop", label: "E", src: "/hero-options/hero-bg-desktop.png", mobileOnly: false, desktopOnly: true },
-  { id: "bgNew4", label: "G", src: "/hero-options/hero-bg-new4.png", mobileOnly: false },
-  { id: "bgNew5", label: "I", src: "/hero-options/hero-bg-new5.png", mobileOnly: false },
-  { id: "bgMobileHabitacion", label: "J", src: "/hero-options/hero-bg-mobile-habitacion.png", mobileOnly: true, desktopOnly: false },
-  { id: "bgHabitacion2", label: "K", src: "/hero-options/hero-bg-habitacion-2.png", mobileOnly: true, desktopOnly: false },
-  { id: "bgMobileGemini", label: "M", src: "/hero-options/hero-bg-mobile-gemini.png", mobileOnly: true, desktopOnly: false },
+const HERO_OPTIONS = [
+  { id: "hero1", label: "1", hasVideo: true, hasLogo: true },
+  { id: "hero2", label: "2", hasVideo: false, hasLogo: true },
+  { id: "hero3", label: "3", hasVideo: false, hasLogo: false, imageSrc: "/hero-options/hero-option-3.png" },
+  { id: "hero4", label: "4", hasVideo: false, hasLogo: false, imageSrc: "/hero-options/hero-option-4.png" },
 ];
 
 interface HeroProps {
@@ -27,7 +22,7 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [initialHeroSet, setInitialHeroSet] = useState(false);
   const [heroImageShifted, setHeroImageShifted] = useState(false);
-  const [activeBgId, setActiveBgId] = useState<string>("bg20");
+  const [activeBgId, setActiveBgId] = useState<string>("hero1");
   // Estados para controlar las animaciones secuenciales
   const [logoBKSVisible, setLogoBKSVisible] = useState(false);
   const [overlayTextVisible, setOverlayTextVisible] = useState(false);
@@ -36,7 +31,7 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
     setIsVisible(true);
     // Establecer hero por defecto solo una vez al montar
     if (!initialHeroSet && typeof window !== 'undefined') {
-      setActiveBgId("bg20"); // Hero H por defecto
+      setActiveBgId("hero1"); // Hero 1 por defecto
       setInitialHeroSet(true);
     }
     // Detectar si es móvil solo para el estado isMobile
@@ -48,14 +43,15 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
       checkMobile();
       window.addEventListener('resize', checkMobile);
       
-      // Secuencia de animaciones para Hero H (bg20):
-      // 1. Video + header aparecen inmediatamente (ya están visibles)
+      // Secuencia de animaciones para heroes con logo:
+      // 1. Video/background + header aparecen inmediatamente (ya están visibles)
       // 2. Logo BKS Music con fade in después de 0.5s
       // 3. Overlay texto con fade in después de 1s
       // 4. Logos de compañías suben después de 1.5s (se controla en page.tsx)
       // 5. Logos sociales con fade in después de 2.5s
       
-      if (activeBgId === "bg20") {
+      const currentHero = HERO_OPTIONS.find(h => h.id === activeBgId);
+      if (currentHero && (currentHero.hasVideo || currentHero.hasLogo)) {
         const logoBKSTimer = setTimeout(() => {
           setLogoBKSVisible(true);
         }, 500);
@@ -98,18 +94,6 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
     }
   }, [activeBgId, onActiveBgChange]);
 
-  // Verificar compatibilidad del hero activo con la plataforma
-  useEffect(() => {
-    const currentBg = HERO_BACKGROUNDS.find(bg => bg.id === activeBgId);
-    if (currentBg && typeof window !== 'undefined') {
-      const mobile = window.innerWidth < 768;
-      if (mobile && currentBg.desktopOnly) {
-        setActiveBgId("bgMobileGemini"); // Cambiar a hero Gemini por defecto en móvil
-      } else if (!mobile && currentBg.mobileOnly) {
-        setActiveBgId("bgNew4"); // Cambiar a hero G por defecto en desktop
-      }
-    }
-  }, [isMobile]);
 
   // Rotación eliminada: dejamos un único logo limpio en móvil
 
@@ -150,35 +134,20 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
     }
   }, [isVisible]);
 
-  const currentBackground = HERO_BACKGROUNDS.find((bg) => bg.id === activeBgId) ?? HERO_BACKGROUNDS[0];
-  const isGeminiMobile = activeBgId === "bgMobileGemini";
+  const currentHero = HERO_OPTIONS.find((h) => h.id === activeBgId) ?? HERO_OPTIONS[0];
 
   return (
     <>
-    <section id="home" data-gemini-active={isGeminiMobile ? "true" : "false"} className={`relative ${isGeminiMobile ? "pt-0 overflow-visible" : "min-h-[100vh] flex items-center justify-center overflow-hidden pt-24 md:pt-0"}`} style={isGeminiMobile ? { width: '100vw', margin: '0', padding: '0', left: '0', right: '0', maxWidth: '100vw', position: 'relative', overflow: 'visible', height: '190vh', minHeight: '190vh' } : {}}>
-      {/* Header negro con transparencia - solo para Gemini cuando aparecen los iconos */}
-      {isGeminiMobile && heroImageShifted && (
-        <div 
-          className="fixed top-0 left-0 right-0 md:hidden transition-opacity duration-1000 ease-out"
-          style={{
-            height: '35px',
-            background: 'rgba(0, 0, 0, 0.8)',
-            zIndex: 25,
-            pointerEvents: 'none',
-            opacity: 0,
-            animation: 'fadeInHeader 1s ease-out 3s forwards'
-          }}
-        />
-      )}
-      {/* Video Background */}
-      {/* Desktop: vídeo. Mobile: oculto */}
+    <section id="home" className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-24 md:pt-0">
+      {/* Desktop Background */}
       <div className="absolute inset-0 z-0 hidden md:flex items-center justify-center bg-black">
         <div className="relative w-full h-full flex items-center justify-center">
-          <div className={`relative ${activeBgId === "bgNew5" ? "w-full h-full" : activeBgId === "bg20" ? "w-full h-full max-w-[100vw] max-h-[100vh]" : "w-[75%] h-[75%] max-w-[75vw] max-h-[75vh]"}`}>
-            {activeBgId === "bg20" ? (
+          <div className="relative w-full h-full max-w-[100vw] max-h-[100vh]">
+            {/* Hero 1: Con video */}
+            {activeBgId === "hero1" && (
               <>
                 <video
-                  key="bg20-video-desktop"
+                  key="hero1-video-desktop"
                   src="/VideoLofi2.mp4"
                   autoPlay={true}
                   loop={true}
@@ -194,7 +163,7 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
                 >
                   <Image
                     src="/hero-h-logo.png"
-                    alt="Hero H Logo"
+                    alt="Hero Logo"
                     width={600}
                     height={200}
                     className="object-contain"
@@ -207,7 +176,7 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
                 >
                   <Image
                     src="/hero-h-overlay.png"
-                    alt="Hero H Overlay"
+                    alt="Hero Overlay"
                     width={800}
                     height={600}
                     className="object-contain"
@@ -215,138 +184,158 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
                   />
                 </div>
               </>
-            ) : (
-              currentBackground && !currentBackground.mobileOnly && (
-                <Image
-                  key={currentBackground.id}
-                  src={currentBackground.src}
-                  alt={`Hero background ${currentBackground.label}`}
-                  fill
-                  priority
-                  className={`${activeBgId === "bg24" || activeBgId === "bg14" || activeBgId === "bgDesktop" ? "object-contain" : activeBgId === "bgNew5" ? "object-cover scale-110" : "object-cover"} ${activeBgId === "bgNew5" ? "translate-y-[0vh]" : "translate-y-[-9vh]"}`}
-                  sizes={activeBgId === "bgNew5" ? "100vw" : "75vw"}
-                />
-              )
+            )}
+            {/* Hero 2: Sin video, solo logo y overlay */}
+            {activeBgId === "hero2" && (
+              <>
+                <div className="absolute inset-0 bg-black"></div>
+                <div 
+                  className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${logoBKSVisible ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ transform: 'translateY(-20vh) translateX(-13vw)' }}
+                >
+                  <Image
+                    src="/hero-h-logo.png"
+                    alt="Hero Logo"
+                    width={600}
+                    height={200}
+                    className="object-contain"
+                    style={{ maxWidth: '70%', height: 'auto', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }}
+                  />
+                </div>
+                <div 
+                  className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${overlayTextVisible ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ transform: 'translateY(5vh) translateX(-10vw)' }}
+                >
+                  <Image
+                    src="/hero-h-overlay.png"
+                    alt="Hero Overlay"
+                    width={800}
+                    height={600}
+                    className="object-contain"
+                    style={{ maxWidth: '44%', height: 'auto' }}
+                  />
+                </div>
+              </>
+            )}
+            {/* Hero 3 y 4: Con imágenes */}
+            {(activeBgId === "hero3" || activeBgId === "hero4") && currentHero.imageSrc && (
+              <Image
+                key={currentHero.id}
+                src={currentHero.imageSrc}
+                alt={`Hero ${currentHero.label}`}
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
             )}
           </div>
         </div>
       </div>
 
-      {/* Mobile: imagen de fondo */}
-      {activeBgId === "bgMobileGemini" && currentBackground && !currentBackground.desktopOnly ? (
-        <div className="absolute inset-0 z-0 md:hidden" style={{ top: '0', left: '0', right: '0', bottom: '0', width: '100vw', margin: '0', padding: '0' }}>
-          <div 
-            className="relative transition-all duration-[2000ms] ease-out" 
-            style={{ 
-              width: '100vw', 
-              height: '180vh', 
-              margin: '0', 
-              padding: '0', 
-              marginTop: heroImageShifted ? '-25vh' : '-5vh',
-              transform: heroImageShifted ? 'translateY(-20vh)' : 'translateY(0)',
-              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-              overflow: 'hidden'
-            }}
-          >
-            <div style={{ width: '100vw', height: '200vh', position: 'relative' }}>
+      {/* Mobile Background */}
+      <div className="absolute inset-0 z-0 md:hidden bg-black flex items-center justify-center">
+        <div className="relative w-full h-full flex items-center justify-center">
+          {/* Hero 1: Con video */}
+          {activeBgId === "hero1" && (
+            <div className="relative w-full h-full max-w-[100vw] max-h-[100vh] flex items-center justify-center">
+              <video
+                key="hero1-video-mobile"
+                src="/VideoLofi2.mp4"
+                autoPlay={true}
+                loop={true}
+                muted={true}
+                playsInline={true}
+                className="w-full h-full"
+                style={{ objectFit: 'contain', transform: 'translateY(-26.5vh) scale(1.65)', filter: 'brightness(0.75) contrast(1.2)' }}
+              />
+              <div className="absolute inset-0 z-5 bg-black/15" style={{ pointerEvents: 'none' }}></div>
+              <div 
+                className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${logoBKSVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transform: 'translateY(-38vh) translateX(-13vw)' }}
+              >
+                <Image
+                  src="/hero-h-logo.png"
+                  alt="Hero Logo"
+                  width={400}
+                  height={150}
+                  className="object-contain"
+                  style={{ maxWidth: '60%', height: 'auto', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }}
+                />
+              </div>
+              <div 
+                className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${overlayTextVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transform: 'translateY(-28vh) translateX(-11vw)' }}
+              >
+                <Image
+                  src="/hero-h-overlay.png"
+                  alt="Hero Overlay"
+                  width={800}
+                  height={600}
+                  className="object-contain"
+                  style={{ maxWidth: '65%', height: 'auto' }}
+                />
+              </div>
+            </div>
+          )}
+          {/* Hero 2: Sin video, solo logo y overlay */}
+          {activeBgId === "hero2" && (
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 bg-black"></div>
+              <div 
+                className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${logoBKSVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transform: 'translateY(-38vh) translateX(-13vw)' }}
+              >
+                <Image
+                  src="/hero-h-logo.png"
+                  alt="Hero Logo"
+                  width={400}
+                  height={150}
+                  className="object-contain"
+                  style={{ maxWidth: '60%', height: 'auto', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }}
+                />
+              </div>
+              <div 
+                className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${overlayTextVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transform: 'translateY(-28vh) translateX(-11vw)' }}
+              >
+                <Image
+                  src="/hero-h-overlay.png"
+                  alt="Hero Overlay"
+                  width={800}
+                  height={600}
+                  className="object-contain"
+                  style={{ maxWidth: '65%', height: 'auto' }}
+                />
+              </div>
+            </div>
+          )}
+          {/* Hero 3 y 4: Con imágenes */}
+          {(activeBgId === "hero3" || activeBgId === "hero4") && currentHero.imageSrc && (
+            <div className="relative w-full h-full">
               <Image
-                key={`${currentBackground.id}-mobile`}
-                src={currentBackground.src}
-                alt={`Hero background ${currentBackground.label}`}
+                key={`${currentHero.id}-mobile`}
+                src={currentHero.imageSrc}
+                alt={`Hero ${currentHero.label}`}
                 fill
                 priority
-                className="object-contain"
+                className="object-cover"
                 sizes="100vw"
-                style={{ objectPosition: 'top left' }}
               />
             </div>
-            {/* Gradiente fade a negro en la parte inferior */}
-            <div 
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                width: '100vw',
-                height: '30vh',
-                background: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 15%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0.9) 60%, rgba(0, 0, 0, 1) 100%)',
-                pointerEvents: 'none',
-                zIndex: 2
-              }}
-            />
-          </div>
+          )}
         </div>
-      ) : (
-        <div className={`absolute inset-0 z-0 md:hidden ${activeBgId === "bgNew4" || activeBgId === "bgNew5" || activeBgId === "bgMobileHabitacion" || activeBgId === "bgHabitacion2" ? "bg-transparent" : "bg-black"} flex items-start justify-center`} style={activeBgId === "bgNew4" || activeBgId === "bgNew5" || activeBgId === "bgMobileHabitacion" || activeBgId === "bgHabitacion2" ? { top: '0', left: '0', right: '0', bottom: '0', width: '100vw', margin: '0', padding: '0' } : { top: '6rem' }}>
-          <div className="relative w-full h-full flex items-start justify-center">
-            {activeBgId === "bg20" ? (
-              <div className="relative w-full h-full max-w-[100vw] max-h-[100vh] flex items-center justify-center">
-                <video
-                  key="bg20-video-mobile"
-                  src="/VideoLofi2.mp4"
-                  autoPlay={true}
-                  loop={true}
-                  muted={true}
-                  playsInline={true}
-                  className="w-full h-full"
-                  style={{ objectFit: 'contain', transform: 'translateY(-26.5vh) scale(1.65)', filter: 'brightness(0.75) contrast(1.2)' }}
-                />
-                <div className="absolute inset-0 z-5 bg-black/15" style={{ pointerEvents: 'none' }}></div>
-                <div 
-                  className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${logoBKSVisible ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ transform: 'translateY(-38vh) translateX(-13vw)' }}
-                >
-                  <Image
-                    src="/hero-h-logo.png"
-                    alt="Hero H Logo"
-                    width={400}
-                    height={150}
-                    className="object-contain"
-                    style={{ maxWidth: '60%', height: 'auto', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }}
-                  />
-                </div>
-                <div 
-                  className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${overlayTextVisible ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ transform: 'translateY(-28vh) translateX(-11vw)' }}
-                >
-                  <Image
-                    src="/hero-h-overlay.png"
-                    alt="Hero H Overlay"
-                    width={800}
-                    height={600}
-                    className="object-contain"
-                    style={{ maxWidth: '65%', height: 'auto' }}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className={`relative ${activeBgId === "bgNew4" || activeBgId === "bgNew5" || activeBgId === "bgMobileHabitacion" || activeBgId === "bgHabitacion2" ? "w-full h-[76vh] overflow-hidden" : "w-[75%] h-[75%] max-w-[75vw] max-h-[75vh]"}`}>
-                {currentBackground && !currentBackground.desktopOnly && (
-                  <Image
-                    key={`${currentBackground.id}-mobile`}
-                    src={currentBackground.src}
-                    alt={`Hero background ${currentBackground.label}`}
-                    fill
-                    priority
-                    className={`${activeBgId === "bgNew5" ? "object-cover object-top translate-y-[0vh] scale-110" : activeBgId === "bgNew4" || activeBgId === "bgMobileHabitacion" || activeBgId === "bgHabitacion2" ? "object-cover object-top translate-y-[0vh]" : activeBgId === "bg24" || activeBgId === "bg14" ? "object-contain translate-y-[-9vh]" : "object-cover translate-y-[-9vh]"}`}
-                    sizes={activeBgId === "bgNew4" || activeBgId === "bgNew5" || activeBgId === "bgMobileHabitacion" || activeBgId === "bgHabitacion2" ? "100vw" : "75vw"}
-                  />
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      </div>
 
 
       {/* Mobile: iconos y línea */}
       <div 
-        className={`absolute inset-x-0 ${isGeminiMobile ? 'bottom-[90vh]' : 'bottom-[48vh]'} md:hidden flex flex-col items-center justify-center gap-4 hero-icons z-30 ${isGeminiMobile ? (heroImageShifted ? 'icons-visible' : 'icons-hidden') : (logoVisible ? 'icons-visible' : 'icons-hidden')} transition-transform duration-[2000ms] ease-out`}
+        className={`absolute inset-x-0 bottom-[48vh] md:hidden flex flex-col items-center justify-center gap-4 hero-icons z-30 ${logoVisible ? 'icons-visible' : 'icons-hidden'} transition-transform duration-[2000ms] ease-out`}
         style={{
           zIndex: 30,
           opacity: 0,
           visibility: 'hidden',
-          transform: isGeminiMobile && heroImageShifted ? 'translateY(-44vh)' : activeBgId === "bg20" ? 'translateX(34vw) translateY(-1vh)' : 'translateY(0) translateX(0)',
+          transform: activeBgId === "hero1" || activeBgId === "hero2" ? 'translateX(34vw) translateY(-1vh)' : 'translateY(0) translateX(0)',
           transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
@@ -387,8 +376,8 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
           </a>
         </div>
         {/* Línea blanca bajo iconos sociales */}
-        {activeBgId !== "bg20" && (
-          <div className={`hero-line ${isGeminiMobile ? (heroImageShifted ? 'line-visible' : 'line-hidden') : (logoVisible ? 'line-visible' : 'line-hidden')}`}>
+        {activeBgId !== "hero1" && activeBgId !== "hero2" && (
+          <div className={`hero-line ${logoVisible ? 'line-visible' : 'line-hidden'}`}>
             <div className="w-24 h-[2px] bg-white/90" />
           </div>
         )}
@@ -438,6 +427,31 @@ export default function Hero({ onActiveBgChange }: HeroProps) {
           >
             <svg className="w-9 h-9" viewBox="0 0 24 24" fill="currentColor"><path d="M1.175 13.5c-.552 0-1 .5-1 1.125v3.75c0 .625.448 1.125 1 1.125S2.175 19 2.175 18.375v-3.75c0-.625-.448-1.125-1-1.125zm2.45-1.875c-.552 0-1 .5-1 1.125v5.625c0 .625.448 1.125 1 1.125S4.625 18.875 4.625 18.25V12.75c0-.625-.448-1.125-1-1.125zm2.45-1.875c-.552 0-1 .5-1 1.125v7.5c0 .625.448 1.125 1 1.125s1-.5 1-1.125v-7.5c0-.625-.448-1.125-1-1.125zm2.45-1.875c-.552 0-1 .5-1 1.125v9.375c0 .625.448 1.125 1 1.125s1-.5 1-1.125V9.75c0-.625-.448-1.125-1-1.125zm2.45-3c-.552 0-1 .5-1 1.125v12.375c0 .625.448 1.125 1 1.125s1-.5 1-1.125V6.75c0-.625-.448-1.125-1-1.125zm2.45 3c-.552 0-1 .5-1 1.125v9.375c0 .625.448 1.125 1 1.125s1-.5 1-1.125V9.75c0-.625-.448-1.125-1-1.125zm2.45 1.875c-.552 0-1 .5-1 1.125v7.5c0 .625.448 1.125 1 1.125s1-.5 1-1.125v-7.5c0-.625-.448-1.125-1-1.125zm2.45 1.875c-.552 0-1 .5-1 1.125v5.625c0 .625.448 1.125 1 1.125s1-.5 1-1.125V12.75c0-.625-.448-1.125-1-1.125zm2.45 1.875c-.552 0-1 .5-1 1.125v3.75c0 .625.448 1.125 1 1.125s1-.5 1-1.125v-3.75c0-.625-.448-1.125-1-1.125zM19.55 11.25c-.552 0-1 .5-1 1.125v5.625c0 .625.448 1.125 1 1.125s1-.5 1-1.125V12.375c0-.625-.448-1.125-1-1.125zM22 11.25c-.552 0-1 .5-1 1.125v5.625c0 .625.448 1.125 1 1.125s1-.5 1-1.125V12.375c0-.625-.448-1.125-1-1.125z"/></svg>
           </a>
+        </div>
+      </div>
+
+      {/* Selector de héroes */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30">
+        <div className="flex items-center gap-2 px-3 py-2 bg-black/50 backdrop-blur-md rounded-full border border-white/20">
+          {HERO_OPTIONS.map((hero) => (
+            <button
+              key={hero.id}
+              onClick={() => {
+                setActiveBgId(hero.id);
+                if (onActiveBgChange) {
+                  onActiveBgChange(hero.id);
+                }
+              }}
+              className={`text-xs font-semibold uppercase tracking-[0.18em] px-3 py-1 rounded-full transition ${
+                activeBgId === hero.id
+                  ? "bg-white text-black"
+                  : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+              aria-label={`Activar hero ${hero.label}`}
+            >
+              {hero.label}
+            </button>
+          ))}
         </div>
       </div>
 

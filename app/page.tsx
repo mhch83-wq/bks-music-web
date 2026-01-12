@@ -12,7 +12,7 @@ import ArtistsSection from "@/components/ArtistsSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const [activeHeroBg, setActiveHeroBg] = useState<string>("bg20");
+  const [activeHeroBg, setActiveHeroBg] = useState<string>("hero1");
   const [heroImageShifted, setHeroImageShifted] = useState(false);
   
   // Prevenir scroll automático en mobile cuando hay hash en la URL
@@ -41,11 +41,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Para Hero H (bg20): logos de compañías suben después de 1.5s (después del overlay texto)
+    // Para heroes con logo (hero1 y hero2): logos de compañías suben después de 1.5s
     // Para otros heroes: mantener la lógica original
     const checkAndShift = () => {
-      if (activeHeroBg === "bg20") {
-        // Hero H: logos suben después de 1.5s
+      if (activeHeroBg === "hero1" || activeHeroBg === "hero2") {
+        // Heroes con logo: logos suben después de 1.5s
         const shiftTimer = setTimeout(() => {
           setSectionsShifted(true);
         }, 1500);
@@ -88,15 +88,13 @@ export default function Home() {
       <Hero onActiveBgChange={setActiveHeroBg} />
       
       <div 
-        className={`transition-all md:duration-[3000ms] duration-[4000ms] ease-in-out ${heroImageShifted && activeHeroBg === "bgMobileGemini" ? 'transition-transform duration-[2000ms] ease-out' : ''}`}
+        className="transition-all md:duration-[3000ms] duration-[4000ms] ease-in-out"
         style={{
-          marginTop: sectionsShifted ? (activeHeroBg === "bgMobileGemini" ? '-75vh' : activeHeroBg === "bg20" ? '-300px' : '-140px') : (activeHeroBg === "bgMobileGemini" ? '100vh' : '0'),
-          transform: heroImageShifted && activeHeroBg === "bgMobileGemini" ? 'translateY(-50vh)' : 'translateY(0)',
-          transitionTimingFunction: heroImageShifted && activeHeroBg === "bgMobileGemini" ? 'cubic-bezier(0.4, 0, 0.2, 1)' : undefined
+          marginTop: sectionsShifted ? (activeHeroBg === "hero1" || activeHeroBg === "hero2" ? '-300px' : '-140px') : '0',
         }}
       >
         <CompaniesLogos />
-        <div className={activeHeroBg === "bgMobileGemini" ? "-mt-12 md:mt-0" : activeHeroBg === "bg20" ? "-mt-16 md:mt-0" : ""}>
+        <div className={activeHeroBg === "hero1" || activeHeroBg === "hero2" ? "-mt-16 md:mt-0" : ""}>
           <ArtistsSection />
         </div>
         {/* Línea divisoria solo en móvil - más corta */}

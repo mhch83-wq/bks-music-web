@@ -303,8 +303,8 @@ export default function BKSMusic({ activeHeroBg }: BKSMusicProps = {}) {
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
                   <span className="font-semibold text-cyan-400">· Catálogo</span><br />
-                  Además de la creación a medida, desarrollamos un catálogo propio en constante movimiento con una visión altamente colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management.<br />
-                  Nuestro repertorio cuenta con un clearance claro y flexible, lo que permite procesos ágiles y adaptables a cada proyecto, para que cada canción pueda moverse rápido y encontrar su lugar.
+                  Además de la creación a medida, desarrollamos un <span className="text-cyan-300/70 font-semibold">catálogo propio</span> en constante movimiento con una visión altamente colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management.<br />
+                  Nuestro repertorio cuenta con un <span className="text-cyan-300/70 font-semibold">clearance claro</span> y flexible, lo que permite procesos ágiles y adaptables a cada proyecto, para que cada canción pueda moverse rápido y encontrar su lugar.
                 </p>
               </div>
 
@@ -320,7 +320,7 @@ export default function BKSMusic({ activeHeroBg }: BKSMusicProps = {}) {
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
                   <span className="font-semibold text-orange-400">· Desarrollo artístico y talento</span><br />
-                  Nada nos gusta más que identificar y apoyar el talento. Dedicamos recursos a mentorizar y acompañar a artistas y compositores/as con los que nos sentimos identificados, ayudándoles a construir repertorio, narrativa y posicionamiento dentro de la industria.
+                  Nada nos gusta más que identificar y apoyar el talento. Dedicamos recursos a mentorizar y <span className="text-orange-300/70 font-semibold">acompañar a artistas y compositores/as</span> con los que nos sentimos identificados, ayudándoles a construir repertorio, narrativa y posicionamiento dentro de la industria.
                 </p>
               </div>
 

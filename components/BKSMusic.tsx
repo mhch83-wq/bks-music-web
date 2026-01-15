@@ -335,7 +335,14 @@ export default function BKSMusic({ activeHeroBg }: BKSMusicProps = {}) {
                 }`}
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
-                  Si te apetece conocernos, nos encantará hablar y ver cómo podemos trabajar juntos.
+                  Si te apetece conocernos, nos encantará hablar y ver cómo podemos{' '}
+                  <a 
+                    href="#contact" 
+                    className="text-[#39ff14] hover:text-[#00ff00] transition-colors duration-300 font-semibold cursor-pointer underline decoration-[#39ff14]/50 hover:decoration-[#00ff00]"
+                    style={{ textShadow: '0 0 8px rgba(57, 255, 20, 0.5)' }}
+                  >
+                    trabajar juntos
+                  </a>.
                 </p>
               </div>
             </div>

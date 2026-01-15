@@ -338,8 +338,7 @@ export default function BKSMusic({ activeHeroBg }: BKSMusicProps = {}) {
                   Si te apetece conocernos, nos encantará hablar y ver cómo podemos{' '}
                   <a 
                     href="#contact" 
-                    className="text-[#39ff14] hover:text-[#00ff00] transition-colors duration-300 cursor-pointer no-underline font-semibold"
-                    style={{ textShadow: '0 0 8px rgba(57, 255, 20, 0.5)' }}
+                    className="text-lime-300 hover:text-lime-200 transition-colors duration-300 cursor-pointer no-underline font-semibold"
                   >
                     trabajar juntos
                   </a>.

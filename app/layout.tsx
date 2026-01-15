@@ -14,7 +14,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "BKS Publishing | Music Production Company",
+  title: "BKS Music | Songwriting, production, publishing & talent development",
   description: "Professional music production and publishing",
   icons: {
     icon: "/favicon.png",

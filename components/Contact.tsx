@@ -8,11 +8,52 @@ export default function Contact() {
     email: "",
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    window.location.href = `mailto:contacto@bks-music.com?subject=Consulta de ${formData.name}&body=${encodeURIComponent(formData.message + '\n\nEmail: ' + formData.email)}`;
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 3000);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      // Usar FormSubmit (gratis, sin configuración previa)
+      // Solo necesita el email de destino en la acción del formulario
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("_subject", `Nueva consulta de ${formData.name}`);
+
+      const response = await fetch("https://formsubmit.co/contacto@bks-music.com", {
+        method: "POST",
+        body: formDataToSend,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        throw new Error("Error al enviar el email");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -83,10 +124,17 @@ export default function Contact() {
               </div>
             </div>
             
-            <div className="flex justify-end mt-0.5">
+            <div className="flex justify-between items-center mt-0.5">
+              {submitStatus === "success" && (
+                <p className="text-green-400 text-xs">¡Mensaje enviado correctamente!</p>
+              )}
+              {submitStatus === "error" && (
+                <p className="text-red-400 text-xs">Error al enviar. Intenta de nuevo.</p>
+              )}
               <button
                 type="submit"
-                className="text-gray-300 hover:text-gray-200 transition-all duration-300 flex items-center justify-center p-1"
+                disabled={isSubmitting}
+                className="text-gray-300 hover:text-gray-200 transition-all duration-300 flex items-center justify-center p-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
               <svg 
                 className="w-5 h-5" 

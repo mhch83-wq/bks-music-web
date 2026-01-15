@@ -12,22 +12,34 @@ import ArtistsSection from "@/components/ArtistsSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
+  // Siempre usar hero1 (bg20 es el valor que Hero.tsx envía para hero1)
   const [activeHeroBg, setActiveHeroBg] = useState<string>("hero1");
   const [heroImageShifted, setHeroImageShifted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   
   // Prevenir scroll automático en mobile cuando hay hash en la URL
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      // Solo en móvil: prevenir scroll automático al hash
-      if (window.location.hash) {
-        // Remover el hash de la URL sin hacer scroll
-        const hash = window.location.hash;
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-        // Scroll a top inmediatamente
+    if (typeof window !== 'undefined') {
+      const checkDesktop = () => {
+        setIsDesktop(window.innerWidth >= 768);
+      };
+      checkDesktop();
+      window.addEventListener('resize', checkDesktop);
+      
+      if (window.innerWidth < 768) {
+        // Solo en móvil: prevenir scroll automático al hash
+        if (window.location.hash) {
+          // Remover el hash de la URL sin hacer scroll
+          const hash = window.location.hash;
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          // Scroll a top inmediatamente
+          window.scrollTo(0, 0);
+        }
+        // Asegurar que la página empiece en el top
         window.scrollTo(0, 0);
       }
-      // Asegurar que la página empiece en el top
-      window.scrollTo(0, 0);
+      
+      return () => window.removeEventListener('resize', checkDesktop);
     }
   }, []);
   const [sectionsShifted, setSectionsShifted] = useState(false);
@@ -41,26 +53,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Para heroes con logo (hero1 y hero2): logos de compañías suben después de 1.5s
-    // Para otros heroes: mantener la lógica original
-    const checkAndShift = () => {
-      if (activeHeroBg === "hero1" || activeHeroBg === "hero2") {
-        // Heroes con logo: logos suben después de 1.5s
-        const shiftTimer = setTimeout(() => {
-          setSectionsShifted(true);
-        }, 1500);
-        return shiftTimer;
-      } else {
-        const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-        const delay = isDesktop ? 500 : 1500;
-        const shiftTimer = setTimeout(() => {
-          setSectionsShifted(true);
-        }, delay);
-        return shiftTimer;
-      }
-    };
-    
-    const shiftTimer = checkAndShift();
+    // Hero1: logos de compañías suben después de 1.5s (después del overlay texto)
+    // Hero4 guardado para referencia futura - usar misma lógica si se reactiva
+    const shiftTimer = setTimeout(() => {
+      setSectionsShifted(true);
+    }, 1500);
 
     return () => {
       clearTimeout(shiftTimer);
@@ -88,23 +85,31 @@ export default function Home() {
       <Hero onActiveBgChange={setActiveHeroBg} />
       
       <div 
-        className="transition-all md:duration-[3000ms] duration-[4000ms] ease-in-out"
+        className={`transition-all md:duration-[3000ms] duration-[4000ms] ease-in-out ${heroImageShifted && activeHeroBg === "bgMobileGemini" ? 'transition-transform duration-[2000ms] ease-out' : ''}`}
         style={{
-          marginTop: sectionsShifted ? (activeHeroBg === "hero1" || activeHeroBg === "hero2" ? '-300px' : '-140px') : '0',
+          marginTop: sectionsShifted ? (
+            isDesktop ? '-340px' : '-380px'
+          ) : (
+            isDesktop ? '40px' : '0'
+          ),
+          transform: 'translateY(0)',
+          transitionTimingFunction: undefined
         }}
       >
         <CompaniesLogos />
-        <div className={activeHeroBg === "hero1" || activeHeroBg === "hero2" ? "-mt-16 md:mt-0" : ""}>
-          <ArtistsSection />
+        {/* Hero1 siempre usa -mt-16 md:mt-0 */}
+        {/* Hero4 guardado para referencia futura - usaría -mt-24 md:mt-0 si se reactiva */}
+        <div className="-mt-16 md:mt-0">
+          <ArtistsSection activeHeroBg={activeHeroBg} />
         </div>
         {/* Línea divisoria solo en móvil - más corta */}
         <div className="md:hidden flex justify-center my-4">
           <div className="border-t border-gray-700/50 w-[12%]"></div>
         </div>
-        <Stats />
+        <Stats activeHeroBg={activeHeroBg} />
         {/* Línea divisoria solo en móvil */}
         <div className="md:hidden border-t border-gray-700/50 my-4"></div>
-        <BKSMusic />
+        <BKSMusic activeHeroBg={activeHeroBg} />
         {/* Línea divisoria entre Quiénes somos y Trabajos */}
         <div className="border-t border-gray-700/50 mt-2 mb-4"></div>
         <WorkGrid />

@@ -32,14 +32,16 @@ const artists = [
   "Sweet California",
   "Guzmen",
   "Kapla y Miky",
-  "Lennis Rodriguez",
-  "Mar Lucas",
-  "Antonio José"
+  "Lennis Rodriguez"
 ];
 
-export default function ArtistsSection() {
+interface ArtistsSectionProps {
+  activeHeroBg?: string;
+}
+
+export default function ArtistsSection({ activeHeroBg }: ArtistsSectionProps) {
   return (
-    <section className="relative -mt-8 md:-mt-2 pt-0 md:pt-2 pb-8 sm:pb-12 overflow-visible bg-black">
+    <section className={`relative -mt-8 md:-mt-2 pt-0 md:pt-2 pb-8 sm:pb-12 overflow-visible ${activeHeroBg === "hero4" ? "bg-transparent" : "bg-black"}`}>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="text-xs sm:text-sm font-light text-gray-500 mb-4 sm:mb-6 text-center uppercase tracking-widest">
           Artistas

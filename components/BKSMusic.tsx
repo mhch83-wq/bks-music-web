@@ -33,7 +33,11 @@ const TEAM_MEMBERS = [
   },
 ];
 
-export default function BKSMusic() {
+interface BKSMusicProps {
+  activeHeroBg?: string;
+}
+
+export default function BKSMusic({ activeHeroBg }: BKSMusicProps = {}) {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const servicesRef = useRef<HTMLDivElement | null>(null);
@@ -132,7 +136,8 @@ export default function BKSMusic() {
       style={{ 
         backgroundColor: 'transparent',
         overflow: 'hidden', 
-        position: 'relative'
+        position: 'relative',
+        background: 'transparent'
       }}
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -184,16 +189,17 @@ export default function BKSMusic() {
           }
         }
       `}</style>
-      <div 
-        className="absolute bottom-0 left-0 right-0 rainbow-animated pointer-events-none md:opacity-100"
-        style={{
-          height: '80%',
-          zIndex: 0,
-          opacity: isHovered ? 0.72 : 0.38,
-          filter: isHovered ? 'brightness(1.7) saturate(1.15)' : 'none',
-          transition: 'opacity 0.6s ease-in-out, filter 0.6s ease-in-out'
-        }}
-      >
+      {activeHeroBg !== "hero4" && (
+        <div 
+          className="absolute bottom-0 left-0 right-0 rainbow-animated pointer-events-none md:opacity-100"
+          style={{
+            height: '80%',
+            zIndex: 0,
+            opacity: isHovered ? 0.72 : 0.38,
+            filter: isHovered ? 'brightness(1.7) saturate(1.15)' : 'none',
+            transition: 'opacity 0.6s ease-in-out, filter 0.6s ease-in-out'
+          }}
+        >
         <svg
           width="100%"
           height="100%"
@@ -214,6 +220,7 @@ export default function BKSMusic() {
           </g>
         </svg>
       </div>
+      )}
       <style jsx>{`
         @media (max-width: 767px) {
           .rainbow-animated {
@@ -265,7 +272,7 @@ export default function BKSMusic() {
                     : 'opacity-0 translate-y-8'
                 }`}
               >
-                <p className="hidden md:block text-gray-300 text-sm font-semibold mb-2">Áreas de trabajo:</p>
+                <p className="hidden md:block text-gray-300 text-sm font-semibold mb-2">Áreas de trabajo</p>
               </div>
 
               <div
@@ -280,7 +287,7 @@ export default function BKSMusic() {
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
                   <span className="font-semibold text-pink-400">· Creación</span><br />
-                  Unimos <span className="text-white">composición, producción y dirección creativa</span>, desarrollando repertorio junto a artistas y sellos con los que compartimos criterio y ganas. Creemos que las mejores ideas nacen cuando todo fluye. Por eso <span className="font-semibold text-gray-200">cuidamos tanto el proceso como el resultado</span>. Nuestra política es sencilla: no-drama.
+                  Unimos composición, producción y dirección creativa. Desarrollamos repertorio junto a artistas y sellos con los que compartimos criterio y ganas. Cuidamos el proceso y el resultado, con comunicación rápida y directa.
                 </p>
               </div>
 
@@ -295,8 +302,9 @@ export default function BKSMusic() {
                 }`}
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
-                  <span className="font-semibold text-cyan-400">· Catálogo y pitching</span><br />
-                  Además de la creación a medida, desarrollamos un <span className="font-semibold text-gray-200">catálogo propio</span> en constante movimiento, siempre con una visión altamente colaborativa y listo para pitching entre sellos, editoriales, artistas y managers, para que cada canción encuentre su lugar.
+                  <span className="font-semibold text-cyan-400">· Catálogo</span><br />
+                  Además de la creación a medida, desarrollamos un catálogo propio en constante movimiento con una visión altamente colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management.<br />
+                  Nuestro repertorio cuenta con un clearance claro y flexible, lo que permite procesos ágiles y adaptables a cada proyecto, para que cada canción pueda moverse rápido y encontrar su lugar.
                 </p>
               </div>
 
@@ -311,8 +319,8 @@ export default function BKSMusic() {
                 }`}
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
-                  <span className="font-semibold text-orange-400">· Desarrollo artístico y de talento</span><br />
-                  Nada nos gusta más que identificar y <span className="font-semibold text-gray-200">apoyar el talento</span> con el que nos sentimos identificados. Dedicamos recursos a buscar, mentorizar y guiar a <span className="text-white">nuevos/as artistas</span> y compositores/as en su desarrollo dentro de la industria.
+                  <span className="font-semibold text-orange-400">· Desarrollo artístico y talento</span><br />
+                  Nada nos gusta más que identificar y apoyar el talento. Dedicamos recursos a mentorizar y acompañar a artistas y compositores/as con los que nos sentimos identificados, ayudándoles a construir repertorio, narrativa y posicionamiento dentro de la industria.
                 </p>
               </div>
 
@@ -327,7 +335,7 @@ export default function BKSMusic() {
                 }`}
               >
                 <p className="text-gray-400 text-sm leading-relaxed font-normal">
-                  Si te gustaría conocernos, estaremos encantados de hablar y ver cómo podemos <a href="#contact" className="text-lime-400 font-semibold hover:text-lime-300 transition cursor-pointer">trabajar juntos</a>.
+                  Si te apetece conocernos, nos encantará hablar y ver cómo podemos trabajar juntos.
                 </p>
               </div>
             </div>

@@ -44,7 +44,7 @@ export default function CompaniesLogos() {
       ref={sectionRef}
       data-companies-section
       className={`relative pb-0 md:pb-6 sm:pb-8 overflow-hidden min-h-[200px] md:mt-0 ${isShifted ? 'shifted' : ''}`}
-      style={{ zIndex: 2 }}
+      style={{ zIndex: 2, backgroundColor: 'transparent' }}
     >
       <style jsx>{`
         @media (max-width: 767px) {
@@ -54,7 +54,7 @@ export default function CompaniesLogos() {
           }
           section[data-companies-section].shifted {
             margin-top: -12rem !important;
-            transform: translateY(-2rem) !important;
+            transform: translateY(-3rem) !important;
           }
         }
       `}</style>

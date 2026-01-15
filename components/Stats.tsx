@@ -66,7 +66,11 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   );
 }
 
-export default function Stats() {
+interface StatsProps {
+  activeHeroBg?: string;
+}
+
+export default function Stats({ activeHeroBg }: StatsProps) {
   return (
     <section data-stats-section className="relative pt-4 pb-8 sm:pt-6 sm:pb-10" style={{ backgroundColor: 'transparent', overflow: 'visible' }}>
       <div className="relative max-w-5xl md:max-w-5xl mx-auto px-4 sm:px-6" style={{ overflow: 'visible' }}>

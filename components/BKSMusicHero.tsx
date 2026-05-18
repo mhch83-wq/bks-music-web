@@ -86,7 +86,7 @@ export default function BKSMusicHero() {
           bottom: "140px",
           left: "50%",
           width: "100vw",
-          opacity: bgVisible ? 0.31 : 0,
+          opacity: bgVisible ? 0.5 : 0,
           transition: "opacity 2.4s ease-out, transform 2.4s cubic-bezier(0.2, 0.8, 0.2, 1)",
           pointerEvents: "none",
           zIndex: 0,
@@ -95,8 +95,8 @@ export default function BKSMusicHero() {
           // Entra desde arriba y se asienta suavemente.
           ...(bgVisible ? { transform: "translateX(-50%) translateY(0px)" } : { transform: "translateX(-50%) translateY(-20px)" }),
           // Desvanece arriba/abajo para evitar cortes duros y que no invada la siguiente sección.
-          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 18%, rgba(0,0,0,0.9) 68%, transparent 100%)",
-          maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 18%, rgba(0,0,0,0.9) 68%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.92) 14%, rgba(0,0,0,0.98) 72%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.92) 14%, rgba(0,0,0,0.98) 72%, transparent 100%)",
         }}
       >
         <Image
@@ -104,7 +104,7 @@ export default function BKSMusicHero() {
           alt=""
           fill
           className="object-cover"
-          style={{ filter: "grayscale(20%) brightness(0.95) saturate(0.95)" }}
+          style={{ filter: "grayscale(8%) brightness(1.06) saturate(1.08) contrast(1.04)" }}
           priority={false}
           unoptimized
         />

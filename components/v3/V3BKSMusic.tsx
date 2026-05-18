@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Flip } from "gsap/dist/Flip";
 import ScrollMarquee from "@/components/ScrollMarquee";
 import BKSMusicHero from "@/components/BKSMusicHero";
+import BksAmbientBackdrop from "@/components/BksAmbientBackdrop";
+import QuienesSomosIntroSection from "@/components/QuienesSomosIntroSection";
 import V3BKSMusicStats from "@/components/v3/V3BKSMusicStats";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -669,15 +671,22 @@ export default function V3BKSMusic({ activeHeroBg, version = "v3", onAutoScrollR
         {/* BKSMusicHero en posición natural, sin transform */}
         <BKSMusicHero />
 
-        {/* Grid Creación/Catálogo/Talento — sigue más rápido */}
-        <div
-          className="w-full relative z-30 pt-16 md:pt-24 pb-4 md:pb-6"
-          style={{
-            transform: `translate3d(0, -${v3GridOffset}px, 0)`,
-            transition: "none",
-            willChange: "transform",
-          }}
-        >
+        {/* Fondo BKS continuo: Quiénes somos → Creación / Catálogo / Talento → fade a negro */}
+        <div className="relative overflow-hidden">
+          <BksAmbientBackdrop />
+          <div className="relative z-10">
+            <QuienesSomosIntroSection hideBackdrop />
+          </div>
+
+          {/* Grid Creación/Catálogo/Talento — sigue más rápido */}
+          <div
+            className="relative z-30 w-full pb-4 pt-16 md:pb-6 md:pt-24"
+            style={{
+              transform: `translate3d(0, -${v3GridOffset}px, 0)`,
+              transition: "none",
+              willChange: "transform",
+            }}
+          >
           <div ref={v3ContentRef} className="max-w-6xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 lg:gap-16">
 
@@ -688,7 +697,9 @@ export default function V3BKSMusic({ activeHeroBg, version = "v3", onAutoScrollR
                   Songwriting, producción y dirección creativa.
                 </h4>
                 <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
-                  Vivimos entre el pop, rock, la electrónica y lo urbano. Desarrollamos repertorio junto a artistas y sellos con los que compartimos criterio y ganas. Cuidamos el proceso y el resultado, con comunicación rápida y directa.
+                  Vivimos entre el pop, rock, la electrónica y lo urbano. Desde nuestro estudio en Madrid organizamos
+                  sesiones de songwriting, creando canciones junto a artistas y sellos con los que compartimos criterio,
+                  ilusión y ganas.
                 </p>
               </div>
 
@@ -698,10 +709,10 @@ export default function V3BKSMusic({ activeHeroBg, version = "v3", onAutoScrollR
               <div className="flex flex-col gap-6">
                 <span className="text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">02 — Catálogo</span>
                 <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
-                  Un catálogo propio en constante movimiento,
+                  Catálogo propio en constante movimiento,
                 </h4>
                 <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
-                  con visión colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management. Clearance claro y flexible para que cada canción encuentre su lugar de forma fácil.
+                  con una visión colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management, con un clearance claro y flexible para que cada canción encuentre su lugar de forma fácil.
                 </p>
                 <a href="#" className="inline-block text-[10px] font-black tracking-[0.4em] text-white/40 uppercase border-b border-white/20 pb-0.5 w-fit hover:text-white hover:border-white transition-colors duration-300">
                   Acceder a catálogo →
@@ -715,15 +726,24 @@ export default function V3BKSMusic({ activeHeroBg, version = "v3", onAutoScrollR
                   Desarrollo de Talento.
                 </h4>
                 <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
-                  Nada nos gusta más que identificar y apoyar el talento. Dedicamos recursos a mentorizar y acompañar a artistas y compositores/as con los que nos sentimos identificados, ayudándoles a construir repertorio, narrativa y posicionamiento dentro de la industria.
+                  Nada nos gusta más que encontrar y apoyar el talento. Dedicamos recursos a mentorizar y acompañar a artistas y compositores/as con los que nos sentimos alineados, ayudándoles a construir repertorio, narrativa y posicionamiento en la industria.
                 </p>
               </div>
 
+              </div>
             </div>
           </div>
 
-          {/* Nuevo Contador de Estadísticas Dinámico */}
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-40 bg-gradient-to-b from-transparent via-black/70 to-black md:h-56"
+            aria-hidden
+          />
+        </div>
+
+        {/* Stats sobre negro puro */}
+        <div className="relative z-30 bg-black">
           <V3BKSMusicStats />
+        </div>
 
           <div className="max-w-5xl mx-auto pb-0 mt-12 relative" style={{ zIndex: 100200 }}>
             <div className="mt-3 pt-2 flex flex-col items-center text-center relative" style={{ zIndex: 100201 }}>
@@ -749,7 +769,6 @@ export default function V3BKSMusic({ activeHeroBg, version = "v3", onAutoScrollR
           <div className="mt-5">
             <Footer aboutUsVersion="v3" />
           </div>
-        </div>
       </div>
     );
   };

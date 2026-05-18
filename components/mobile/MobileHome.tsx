@@ -258,11 +258,11 @@ export default function MobileHome() {
 
             <div
               ref={contactRef}
+              className="relative -mt-44 md:-mt-32"
               style={{
                 backgroundColor: '#000000',
                 zIndex: 30,
                 position: 'relative',
-                marginTop: 0,
               }}
             >
               <Contact aboutUsVersion="v3" />

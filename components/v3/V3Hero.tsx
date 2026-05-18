@@ -9,11 +9,13 @@ const companyLogos = [
   "/68f66321174fa3b870a1c008_Universal Music Logo White.png",
   "/68f66a5674e5fb221370c297_sony-music-publishing-logo.webp",
   "/68f66356e9f1630e92f99943_WMG_BIG.D.svg",
+  "/logo-virgin.png",
   "/68f6671e26206e3362c351d0_peer-music-logo.png",
   "/68f66c0eba18d76f93d93420_atresmedia logo.png",
   "/68f663cc69c0ce2cd1863f1d_TL5.MC_BIG.D.svg",
-  "/68f666e27a2ffc0d86a44292_image_2025-10-20_184417679.png", // Ultramusic
-  "/Logo movistar plus.png", // Movistar Plus
+  "/68f666e27a2ffc0d86a44292_image_2025-10-20_184417679.png",
+  "/Logo movistar plus.png",
+  "/onerpm-logo.png",
 ];
 
 // HERO OPTIONS - Guardado para referencia futura
@@ -720,7 +722,7 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
               style={{
                 transform: 'scale(1.0)',
                 transformOrigin: 'bottom',
-                filter: 'saturate(1.05) contrast(1.05) brightness(0.95)',
+                filter: 'saturate(1.12) contrast(1.1) brightness(1.08)',
                 opacity: 1, imageRendering: '-webkit-optimize-contrast',
                 mixBlendMode: 'normal'
               }}
@@ -908,17 +910,18 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                         </p>
                         <div className="grid grid-cols-5 gap-3">
                         {companyLogos.map((src, idx) => {
-                          const isAtresmedia = idx === 6 || src.includes('atresmedia');
-                          const isUltraMusic = idx === 8 || src.includes('image_2025-10-20');
-                          const isMediaset = idx === 7 || src.includes('TL5') || src.includes('mediaset');
-                          const isMovistarPlus = idx === 9 || src.includes('movistar') || src.includes('Movistar');
+                          const isAtresmedia = idx === 7 || src.includes('atresmedia');
+                          const isUltraMusic = idx === 9 || src.includes('image_2025-10-20');
+                          const isMediaset = idx === 8 || src.includes('TL5') || src.includes('mediaset');
+                          const isMovistarPlus = idx === 10 || src.includes('movistar') || src.includes('Movistar');
                           // Mediaset, atresmedia y ultramusic no necesitan filtro brightness(0), solo invert
                           // Movistar Plus sí necesita brightness(0) invert(1) para invertir el color
                           const shouldApplyFilter = !isAtresmedia && !isUltraMusic && !isMediaset;
 
                           const isWarner = idx === 0 || src.includes('warner');
                           const isWarnerMusicGroup = idx === 4 || src.includes('WMG');
-                          const isPeerMusic = idx === 5 || src.includes('peer');
+                          const isPeerMusic = idx === 6 || src.includes('peer');
+                          const isVirgin = idx === 5 || src.includes('virgin');
                           const isSonyMusic = idx === 1 || (src.includes('pngfind.com-sony-logo-png') && !src.includes('publishing'));
                           const shouldTranslateXRight = isWarner || isWarnerMusicGroup;
                           const shouldTranslateXRightMore = isAtresmedia;
@@ -927,7 +930,9 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
 
                           let transformValue = 'none';
                           if (isPeerMusic) {
-                            transformValue = 'translateX(-1px) translateY(-4.84px)';
+                            transformValue = 'translateX(12px) translateY(-4.84px)';
+                          } else if (isVirgin) {
+                            transformValue = 'translateX(-5px)';
                           } else if (isMediaset) {
                             transformValue = 'translateX(29px) translateY(-1.5px)';
                           } else if (isMovistarPlus) {
@@ -946,8 +951,8 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
 
                           // Tiempos aleatorios y creativos pre-definidos para dar un efecto muy orgánico (twinkling/scattered)
                           // Comprimidos extremadamente para que aparezcan muy juntos
-                          const customDelays = [0.05, 0.4, 0.15, 0.65, 0.1, 0.3, 0.5, 0.25, 0.7, 0.35];
-                          const customDurations = [0.8, 1.0, 0.6, 1.2, 0.7, 0.8, 1.1, 0.6, 1.3, 0.7];
+                          const customDelays = [0.05, 0.4, 0.15, 0.65, 0.1, 0.3, 0.5, 0.25, 0.7, 0.35, 0.2, 0.28];
+                          const customDurations = [0.8, 1.0, 0.6, 1.2, 0.7, 0.8, 1.1, 0.6, 1.3, 0.7, 0.85, 0.9];
                           
                           const delayTime = customDelays[idx] !== undefined ? customDelays[idx] : 0;
                           const durationTime = customDurations[idx] !== undefined ? customDurations[idx] : 1.5;
@@ -955,14 +960,14 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                           return (
                             <div
                               key={idx}
-                              className={`relative hero-company-logo-item pointer-events-auto ${isPeerMusic ? 'h-9' : isAtresmedia ? 'h-11' : isMovistarPlus ? 'h-4' : isMediaset ? 'h-6' : isUltraMusic ? 'h-9' : isSonyMusic ? 'h-12' : 'h-9'} ${isPeerMusic ? 'w-20' : isAtresmedia ? 'w-26' : isMovistarPlus ? 'w-8' : isMediaset ? 'w-16' : isUltraMusic ? 'w-20' : isSonyMusic ? 'w-28' : 'w-20'} cursor-pointer`}
+                              className={`relative hero-company-logo-item pointer-events-auto ${isPeerMusic ? 'h-9' : isAtresmedia ? 'h-11' : isMovistarPlus ? 'h-4' : isMediaset ? 'h-6' : isUltraMusic ? 'h-9' : isSonyMusic ? 'h-12' : isVirgin ? 'h-10' : 'h-9'} ${isPeerMusic ? 'w-20' : isAtresmedia ? 'w-26' : isMovistarPlus ? 'w-8' : isMediaset ? 'w-16' : isUltraMusic ? 'w-20' : isSonyMusic ? 'w-28' : isVirgin ? 'w-24' : 'w-20'} cursor-pointer`}
                               style={{
-                                height: isMediaset ? '28px' : isPeerMusic ? '37.5px' : isUltraMusic ? '27.5px' : isMovistarPlus ? '13px' : isSonyMusic ? '49px !important' : 'auto',
-                                width: isMediaset ? '70px' : isPeerMusic ? '83.5px' : isUltraMusic ? '71.5px' : isMovistarPlus ? '31px' : isSonyMusic ? '111px !important' : 'auto',
-                                minHeight: isPeerMusic ? '37.5px' : isAtresmedia ? '44px' : isMovistarPlus ? '13px' : isMediaset ? '28px' : isUltraMusic ? '27.5px' : isSonyMusic ? '49px !important' : '36px',
-                                minWidth: isPeerMusic ? '83.5px' : isAtresmedia ? '104px' : isMovistarPlus ? '31px' : isMediaset ? '70px' : isUltraMusic ? '71.5px' : isSonyMusic ? '111px !important' : '80px',
-                                maxHeight: isMediaset ? '28px' : isPeerMusic ? '37.5px' : isUltraMusic ? '27.5px' : isMovistarPlus ? '13px' : isSonyMusic ? '49px !important' : 'none',
-                                maxWidth: isMediaset ? '70px' : isPeerMusic ? '83.5px' : isUltraMusic ? '71.5px' : isMovistarPlus ? '31px' : isSonyMusic ? '111px !important' : 'none',
+                                height: isMediaset ? '28px' : isPeerMusic ? '37.5px' : isUltraMusic ? '27.5px' : isMovistarPlus ? '13px' : isSonyMusic ? '49px !important' : isVirgin ? '40px' : 'auto',
+                                width: isMediaset ? '70px' : isPeerMusic ? '83.5px' : isUltraMusic ? '71.5px' : isMovistarPlus ? '31px' : isSonyMusic ? '111px !important' : isVirgin ? '84px' : 'auto',
+                                minHeight: isPeerMusic ? '37.5px' : isAtresmedia ? '44px' : isMovistarPlus ? '13px' : isMediaset ? '28px' : isUltraMusic ? '27.5px' : isSonyMusic ? '49px !important' : isVirgin ? '40px' : '36px',
+                                minWidth: isPeerMusic ? '83.5px' : isAtresmedia ? '104px' : isMovistarPlus ? '31px' : isMediaset ? '70px' : isUltraMusic ? '71.5px' : isSonyMusic ? '111px !important' : isVirgin ? '84px' : '80px',
+                                maxHeight: isMediaset ? '28px' : isPeerMusic ? '37.5px' : isUltraMusic ? '27.5px' : isMovistarPlus ? '13px' : isSonyMusic ? '49px !important' : isVirgin ? '40px' : 'none',
+                                maxWidth: isMediaset ? '70px' : isPeerMusic ? '83.5px' : isUltraMusic ? '71.5px' : isMovistarPlus ? '31px' : isSonyMusic ? '111px !important' : isVirgin ? '84px' : 'none',
                                 transform: transformValue,
                                 opacity: 0,
                                 animation: logoVisible ? `customFadeInLogo ${durationTime}s ease-in-out ${delayTime + 0.2}s forwards` : 'none'
@@ -984,7 +989,12 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                                           ? { filter: 'brightness(0) invert(1)', opacity: 0.5, transition: 'filter 0.3s ease-in-out, opacity 0.3s ease-in-out' }
                                           : { filter: 'invert(1)', opacity: 0.5, transition: 'filter 0.3s ease-in-out, opacity 0.3s ease-in-out' }
                                 }
-                                unoptimized={idx === 7 || idx === 9}
+                                unoptimized={
+                                  src.includes('TL5') ||
+                                  src.includes('movistar') ||
+                                  src.includes('Movistar') ||
+                                  src.includes('onerpm')
+                                }
                               />
                             </div>
                           );
@@ -1018,7 +1028,7 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
               style={{
                 transform: 'scale(1.0)',
                 transformOrigin: 'bottom',
-                filter: 'saturate(1.05) contrast(1.05) brightness(0.95)',
+                filter: 'saturate(1.12) contrast(1.1) brightness(1.08)',
                 opacity: 1, imageRendering: '-webkit-optimize-contrast',
                 mixBlendMode: 'normal'
               }}
@@ -1135,14 +1145,14 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                     >
                       <div className="grid grid-cols-2 gap-2" style={{ maxWidth: '140px' }}>
                         {companyLogos.map((src, idx) => {
-                          const isAtresmedia = idx === 6 || src.includes('atresmedia');
-                          const isUltraMusic = idx === 8 || src.includes('image_2025-10-20');
-                          const isMediaset = idx === 7 || src.includes('TL5') || src.includes('mediaset');
-                          const isMovistarPlus = idx === 9 || src.includes('movistar') || src.includes('Movistar');
+                          const isAtresmedia = idx === 7 || src.includes('atresmedia');
+                          const isUltraMusic = idx === 9 || src.includes('image_2025-10-20');
+                          const isMediaset = idx === 8 || src.includes('TL5') || src.includes('mediaset');
+                          const isMovistarPlus = idx === 10 || src.includes('movistar') || src.includes('Movistar');
                           const shouldApplyFilter = !isAtresmedia && !isUltraMusic && !isMediaset && !isMovistarPlus;
                           const isWarner = idx === 0 || src.includes('warner');
                           const isWarnerMusicGroup = idx === 4 || src.includes('WMG');
-                          const isPeerMusic = idx === 5 || src.includes('peer');
+                          const isPeerMusic = idx === 6 || src.includes('peer');
                           const shouldTranslateXRight = isWarner || isWarnerMusicGroup;
                           const shouldTranslateXRightMore = isAtresmedia;
                           const shouldTranslateXRightEvenMore = isUltraMusic;
@@ -1166,8 +1176,8 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                           }
 
                           // Tiempos aleatorios y creativos pre-definidos (más comprimidos)
-                          const customDelaysMobile = [0.05, 0.4, 0.15, 0.65, 0.1, 0.3, 0.5, 0.25, 0.7, 0.35];
-                          const customDurationsMobile = [0.8, 1.0, 0.6, 1.2, 0.7, 0.8, 1.1, 0.6, 1.3, 0.7];
+                          const customDelaysMobile = [0.05, 0.4, 0.15, 0.65, 0.1, 0.3, 0.5, 0.25, 0.7, 0.35, 0.2, 0.28];
+                          const customDurationsMobile = [0.8, 1.0, 0.6, 1.2, 0.7, 0.8, 1.1, 0.6, 1.3, 0.7, 0.85, 0.9];
                           
                           const delayTimeMobile = customDelaysMobile[idx] !== undefined ? customDelaysMobile[idx] : 0;
                           const durationTimeMobile = customDurationsMobile[idx] !== undefined ? customDurationsMobile[idx] : 1.5;
@@ -1202,7 +1212,12 @@ export default function V3Hero({ onActiveBgChange, currentHeroId, pageVersion, v
                                         ? { filter: 'brightness(0) invert(1)', opacity: 0.5, transition: 'filter 0.3s ease-in-out, opacity 0.3s ease-in-out' }
                                         : { filter: 'invert(1)', opacity: 0.5, transition: 'filter 0.3s ease-in-out' }
                                 }
-                                unoptimized={idx === 7 || idx === 9}
+                                unoptimized={
+                                  src.includes('TL5') ||
+                                  src.includes('movistar') ||
+                                  src.includes('Movistar') ||
+                                  src.includes('onerpm')
+                                }
                               />
                             </div>
                           );

@@ -14,6 +14,7 @@ const companyLogos = [
   "/68f66321174fa3b870a1c008_Universal Music Logo White.png",
   "/68f66a5674e5fb221370c297_sony-music-publishing-logo.webp",
   "/68f66356e9f1630e92f99943_WMG_BIG.D.svg",
+  "/logo-virgin.png",
   "/68f6671e26206e3362c351d0_peer-music-logo.png",
   "/68f66c0eba18d76f93d93420_atresmedia logo.png",
   "/68f663cc69c0ce2cd1863f1d_TL5.MC_BIG.D.svg",
@@ -124,24 +125,26 @@ export default function V3Page({
             <p className="mb-5 text-[9px] font-light uppercase tracking-wider text-white/60">
               TRUSTED BY
             </p>
-            {[companyLogos.slice(0, 5), companyLogos.slice(5)].map((row, rowIdx) => (
+            <div className="w-full max-w-full overflow-x-auto md:overflow-x-visible" style={{ transform: "translateX(-30pt)" }}>
+            {[companyLogos.slice(0, 6), companyLogos.slice(6)].map((row, rowIdx) => (
               <div
                 key={rowIdx}
-                className="flex w-full items-center justify-center gap-x-6 md:gap-x-10"
+                className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-3 lg:gap-x-10"
                 style={{
                   marginBottom: rowIdx === 0 ? "24px" : "0",
                   transform: rowIdx === 1 ? "translateX(18px)" : "translateX(70px)",
                 }}
               >
                 {row.map((src, i) => {
-                  const idx = rowIdx === 0 ? i : i + 5;
-                  const isAtresmedia = idx === 6 || src.includes("atresmedia");
-                  const isUltraMusic = idx === 8 || src.includes("image_2025-10-20");
-                  const isMediaset = idx === 7 || src.includes("TL5");
-                  const isMovistarPlus = idx === 9 || src.includes("movistar") || src.includes("Movistar");
-                  const isPeerMusic = idx === 5 || src.includes("peer");
+                  const idx = rowIdx === 0 ? i : i + 6;
+                  const isAtresmedia = idx === 7 || src.includes("atresmedia");
+                  const isUltraMusic = idx === 9 || src.includes("image_2025-10-20");
+                  const isMediaset = idx === 8 || src.includes("TL5");
+                  const isMovistarPlus = idx === 10 || src.includes("movistar") || src.includes("Movistar");
+                  const isPeerMusic = idx === 6 || src.includes("peer");
                   const isSonyMusic = idx === 1;
-                  const isOnerpm = idx === 10 || src.includes("onerpm");
+                  const isOnerpm = idx === 11 || src.includes("onerpm");
+                  const isVirgin = src.includes("virgin");
 
                   const logoStyle = isMediaset
                     ? { filter: "brightness(0) invert(1)", opacity: 0.82 }
@@ -149,6 +152,8 @@ export default function V3Page({
                       ? { filter: "invert(1)", opacity: 0.75 }
                       : isOnerpm
                         ? { filter: "invert(1)", mixBlendMode: "screen" as const, opacity: 0.82 }
+                      : isVirgin
+                        ? { filter: "brightness(0) invert(1)", opacity: 0.75, transform: "scale(1.04)" }
                         : { filter: "brightness(0) invert(1)", opacity: 0.75 };
 
                   return (
@@ -156,8 +161,9 @@ export default function V3Page({
                       key={`${src}-${idx}`}
                       className="relative flex-shrink-0 scale-[1.12] transition-all duration-500 ease-out hover:scale-[1.15] hover:brightness-125 cursor-default"
                       style={{
-                        height: isMovistarPlus ? "28px" : isMediaset ? "48px" : isSonyMusic ? "72px" : isPeerMusic ? "58px" : isOnerpm ? "46px" : "54px",
-                        width: isMovistarPlus ? "68px" : isMediaset ? "122px" : isSonyMusic ? "170px" : isAtresmedia ? "164px" : isPeerMusic ? "128px" : isOnerpm ? "130px" : "134px",
+                        height: isMovistarPlus ? "28px" : isMediaset ? "48px" : isSonyMusic ? "72px" : isPeerMusic ? "58px" : isOnerpm ? "46px" : isVirgin ? "64px" : "54px",
+                        width: isMovistarPlus ? "68px" : isMediaset ? "122px" : isSonyMusic ? "170px" : isAtresmedia ? "164px" : isPeerMusic ? "128px" : isOnerpm ? "130px" : isVirgin ? "136px" : "134px",
+                        left: isPeerMusic ? "24px" : isVirgin ? "calc(-10px + 3pt)" : "0px",
                       }}
                     >
                       <Image
@@ -166,17 +172,19 @@ export default function V3Page({
                         fill
                         className="object-contain"
                         style={logoStyle}
-                        unoptimized={idx === 7 || idx === 9 || idx === 10}
+                        unoptimized={
+                          src.includes("TL5") ||
+                          src.includes("movistar") ||
+                          src.includes("Movistar") ||
+                          src.includes("onerpm")
+                        }
                       />
                     </div>
                   );
                 })}
-                {/* Spacer invisible para igualar fila 1 (5 logos) a 6 */}
-                {rowIdx === 0 && (
-                  <div className="flex-shrink-0" style={{ height: "54px", width: "134px", visibility: "hidden" }} />
-                )}
               </div>
             ))}
+            </div>
           </div>
 
           <div

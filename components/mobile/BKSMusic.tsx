@@ -7,12 +7,12 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Flip } from "gsap/dist/Flip";
 import { FONT_EUROPA_STACK } from "@/lib/europaFont";
 import BKSMusicHero from "./BKSMusicHero";
+import QuienesSomosIntroSection from "@/components/QuienesSomosIntroSection";
 import BKSMusicStats from "./BKSMusicStats";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, Flip);
 }
-
 
 const TEAM_MEMBERS = [
   {
@@ -323,48 +323,55 @@ export default function BKSMusic({ activeHeroBg, version = "v3", onV3LiftChange 
         {/* INTRO PROTEGIDA (01-04) */}
         <BKSMusicHero />
 
+        <QuienesSomosIntroSection />
+
         {/* 
             BRUTALIST POSTER - FULL WIDTH (V3 NEW DESIGN)
             Un diseño de alto impacto con bloques de color sólido y tipografía cruda.
         */}
-        <div className="w-full relative z-30 py-4 md:py-6">
-          <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 lg:gap-16">
+        <div className="w-full relative z-30 pt-4 pb-0 md:py-6">
+          <div className="-mx-4 sm:-mx-6">
+            <div className="grid grid-cols-1 gap-0 md:grid-cols-3 md:gap-8 lg:gap-16">
 
               {/* 01. Creación */}
-              <div className="flex flex-col gap-6">
-                <span className="text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">01 — Creación</span>
-                <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
+              <div className="mobile-v3-block mobile-v3-block--creation flex w-full flex-col gap-6 py-8 pl-5 pr-5 sm:pl-6 sm:pr-6">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-fuchsia-200/72">01 — Creación</span>
+                <h4 className="text-2xl font-black tracking-tight text-white md:text-3xl md:leading-tight">
                   Songwriting, producción y dirección creativa.
                 </h4>
-                <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
-                  Vivimos entre el pop, rock, la electrónica y lo urbano. Desarrollamos repertorio junto a artistas y sellos con los que compartimos criterio y ganas. Cuidamos el proceso y el resultado, con comunicación rápida y directa.
+                <p className="text-sm font-semibold leading-relaxed text-gray-300 md:text-base">
+                  Vivimos entre el pop, rock, la electrónica y lo urbano. Desde nuestro estudio en Madrid organizamos
+                  sesiones de songwriting, creando canciones junto a artistas y sellos con los que compartimos criterio,
+                  ilusión y ganas.
                 </p>
               </div>
 
 
 
               {/* 02. Catálogo */}
-              <div className="flex flex-col gap-6">
-                <span className="text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">02 — Catálogo</span>
-                <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
+              <div className="mobile-v3-block mobile-v3-block--catalog flex w-full flex-col gap-6 py-8 pl-5 pr-5 sm:pl-6 sm:pr-6">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-200/72">02 — Catálogo</span>
+                <h4 className="text-2xl font-black tracking-tight text-white md:text-3xl md:leading-tight">
                   Un catálogo propio en constante movimiento,
                 </h4>
-                <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
+                <p className="text-sm font-semibold leading-relaxed text-gray-300 md:text-base">
                   con visión colaborativa y preparado para propuestas entre sellos, editoriales, artistas y management. Clearance claro y flexible para que cada canción encuentre su lugar de forma fácil.
                 </p>
-                <a href="#" className="inline-block text-[10px] font-black tracking-[0.4em] text-white/40 uppercase border-b border-white/20 pb-0.5 w-fit hover:text-white hover:border-white transition-colors duration-300">
+                <a
+                  href="#"
+                  className="w-fit text-[10px] font-black uppercase tracking-[0.4em] text-cyan-100/75 underline decoration-cyan-400/40 underline-offset-[5px] transition-colors duration-300 hover:text-cyan-100 hover:decoration-cyan-300/70"
+                >
                   Acceder a catálogo →
                 </a>
               </div>
 
               {/* 03. Talento */}
-              <div className="flex flex-col gap-6">
-                <span className="text-[10px] font-black tracking-[0.5em] text-white/30 uppercase">03 — Talento</span>
-                <h4 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight">
+              <div className="mobile-v3-block mobile-v3-block--talent flex w-full flex-col gap-6 py-8 pl-5 pr-5 sm:pl-6 sm:pr-6">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-200/72">03 — Talento</span>
+                <h4 className="text-2xl font-black tracking-tight text-white md:text-3xl md:leading-tight">
                   Desarrollo de Talento.
                 </h4>
-                <p className="text-sm md:text-base text-gray-400 leading-relaxed font-semibold">
+                <p className="text-sm font-semibold leading-relaxed text-gray-300 md:text-base">
                   Nada nos gusta más que identificar y apoyar el talento. Dedicamos recursos a mentorizar y acompañar a artistas y compositores/as con los que nos sentimos identificados, ayudándoles a construir repertorio, narrativa y posicionamiento dentro de la industria.
                 </p>
               </div>
@@ -375,9 +382,9 @@ export default function BKSMusic({ activeHeroBg, version = "v3", onV3LiftChange 
           {/* Nuevo Contador de Estadísticas Dinámico */}
           <BKSMusicStats />
 
-          <div className="max-w-5xl mx-auto pb-0 mt-6">
-            <div className="mt-3 pt-2 flex flex-col items-center text-center">
-              <h3 className="text-xl md:text-2xl font-black uppercase tracking-[0.4em] mb-8 text-white/90" style={{ fontFamily: FONT_EUROPA_STACK }}>
+          <div className="mx-auto max-w-5xl mt-20 pb-0 pt-4 md:mt-6 md:pt-0 -mb-12 md:-mb-6">
+            <div className="flex flex-col items-center pt-4 text-center md:pt-0">
+              <h3 className="mb-2 text-xl font-black uppercase tracking-[0.4em] text-white/90 md:mb-8 md:text-2xl" style={{ fontFamily: FONT_EUROPA_STACK }}>
                 ¿Te apetece conocernos?
               </h3>
               <p className="text-base md:text-lg text-white/40 max-w-2xl leading-relaxed font-bold uppercase tracking-wider">

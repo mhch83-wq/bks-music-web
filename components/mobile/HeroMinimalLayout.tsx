@@ -223,34 +223,36 @@ export default function HeroMinimalLayout({
             <div className="h-px w-4 shrink-0 bg-white/20 md:w-5" />
           </div>
           <div
-            className="grid w-full max-w-[18rem] grid-cols-5 gap-x-1 gap-y-1.5 md:max-w-[19rem] md:gap-x-1.5 md:gap-y-2"
+            className="mx-auto grid w-full max-w-[18rem] grid-cols-5 gap-x-1 gap-y-1.5 md:max-w-[19rem] md:gap-x-1.5 md:gap-y-2"
             style={{ maxWidth: "min(100%, 19rem)" }}
           >
             {companyLogos.map((src, idx) => {
-              const isAtresmedia = idx === 6 || src.includes("atresmedia");
-              const isUltraMusic = idx === 8 || src.includes("image_2025-10-20");
-              const isMediaset = idx === 7 || src.includes("TL5") || src.includes("mediaset");
-              const isMovistarPlus = idx === 9 || src.includes("movistar") || src.includes("Movistar");
-              const shouldApplyFilter = !isAtresmedia && !isUltraMusic && !isMediaset;
+              const isAtresmedia = idx === 7 || src.includes("atresmedia");
+              const isUltraMusic = idx === 9 || src.includes("image_2025-10-20");
+              const isMediaset = idx === 8 || src.includes("TL5") || src.includes("mediaset");
+              const isMovistarPlus = idx === 10 || src.includes("movistar") || src.includes("Movistar");
+              const isOnerpm = idx === 11 || src.includes("onerpm");
+              const shouldApplyFilter = !isAtresmedia && !isUltraMusic && !isMediaset && !isOnerpm;
 
               const isWarner = idx === 0 || src.includes("warner");
               const isWarnerMusicGroup = idx === 4 || src.includes("WMG");
-              const isPeerMusic = idx === 5 || src.includes("peer");
+              const isPeerMusic = idx === 6 || src.includes("peer");
               const isSonyMusic =
                 idx === 1 || (src.includes("pngfind.com-sony-logo-png") && !src.includes("publishing"));
 
               let transformValue = "none";
               if (isPeerMusic) transformValue = "translateX(calc(-1px + 3pt)) translateY(-4px)";
               else if (isMediaset) transformValue = "translateX(calc(12px - 9pt)) translateY(-1px) scale(0.88)";
-              else if (isMovistarPlus) transformValue = "translateX(calc(8px - 6pt)) translateY(calc(1px - 2pt)) scale(0.72)";
+              else if (isMovistarPlus) transformValue = "translateX(calc(8px - 6pt)) translateY(calc(1px - 2pt)) scale(0.62)";
+              else if (isOnerpm) transformValue = "translateY(1px) scale(0.78)";
               else if (isSonyMusic) transformValue = "translateX(-8px) scale(1.18)";
               else if (isWarner && isWarnerMusicGroup) transformValue = "translateX(2px) translateY(-1px)";
               else if (isWarner) transformValue = "translateX(calc(2px + 3pt))";
               else if (isUltraMusic) transformValue = "translateX(8px) translateY(-1px) scale(0.88)";
               else if (isAtresmedia) transformValue = "translateY(calc(-6px + 2pt)) scale(1.42)";
 
-              const delayTime = [0.05, 0.2, 0.12, 0.28, 0.08, 0.18, 0.22, 0.14, 0.26, 0.16][idx] ?? 0;
-              const durationTime = [0.7, 0.9, 0.65, 1, 0.75, 0.85, 0.95, 0.7, 1, 0.8][idx] ?? 0.8;
+              const delayTime = [0.05, 0.2, 0.12, 0.28, 0.08, 0.18, 0.22, 0.14, 0.26, 0.16, 0.2, 0.24][idx] ?? 0;
+              const durationTime = [0.7, 0.9, 0.65, 1, 0.75, 0.85, 0.95, 0.7, 1, 0.8, 0.85, 0.9][idx] ?? 0.8;
 
               return (
                 <div
@@ -271,13 +273,20 @@ export default function HeroMinimalLayout({
                     sizes="(max-width: 768px) 12vw, 48px"
                     className="object-contain object-center"
                     style={
-                      isMediaset || isMovistarPlus || isPeerMusic
-                        ? { filter: "brightness(0) invert(1)", opacity: 0.55 }
-                        : shouldApplyFilter
+                      isOnerpm
+                        ? { filter: "invert(1)", mixBlendMode: "screen", opacity: 0.55 }
+                        : isMediaset || isMovistarPlus || isPeerMusic
                           ? { filter: "brightness(0) invert(1)", opacity: 0.55 }
-                          : { filter: "invert(1)", opacity: 0.55 }
+                          : shouldApplyFilter
+                            ? { filter: "brightness(0) invert(1)", opacity: 0.55 }
+                            : { filter: "invert(1)", opacity: 0.55 }
                     }
-                    unoptimized={idx === 7 || idx === 9}
+                    unoptimized={
+                      src.includes("TL5") ||
+                      src.includes("movistar") ||
+                      src.includes("Movistar") ||
+                      src.includes("onerpm")
+                    }
                   />
                 </div>
               );

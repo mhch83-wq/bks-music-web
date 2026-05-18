@@ -12,8 +12,12 @@ const stats = [
   { target: 60, suffix: "", label: "ARTISTAS", prefix: "+", iconType: "artists" },
 ];
 
+const statTextGlow = {
+  textShadow: "0 1px 10px rgba(0,0,0,0.75), 0 0 18px rgba(0,0,0,0.4)",
+};
+
 function StatIcon({ type }: { type: string }) {
-  const base = "mt-5 text-white/70 group-hover:text-white transition-colors duration-300";
+  const base = "mt-5 text-white/80 transition-colors duration-300";
   
   switch (type) {
     case "spotify":
@@ -58,8 +62,11 @@ function StatIcon({ type }: { type: string }) {
   }
 }
 
+const STATS_BG_VIDEO = "/videos/stats-timeline-bg.mp4";
+
 export default function BKSMusicStats() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -121,24 +128,67 @@ export default function BKSMusicStats() {
     };
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const play = () => {
+      video.play().catch(() => {});
+    };
+
+    play();
+    video.addEventListener("canplay", play);
+    return () => video.removeEventListener("canplay", play);
+  }, []);
+
   return (
-    <div ref={containerRef} className="relative w-full bg-transparent pt-20 pb-32 overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
+    <div ref={containerRef} className="relative w-full overflow-hidden bg-black pb-8 pt-10 md:pb-32 md:pt-20">
+      <video
+        ref={videoRef}
+        src={STATS_BG_VIDEO}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover brightness-[0.88] saturate-[0.95]"
+        style={{ zIndex: 0 }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/45"
+        aria-hidden
+        style={{ zIndex: 1 }}
+      />
+      <div className="relative z-10 mx-auto max-w-4xl px-4">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
           {stats.map((stat, index) => (
-            <div key={index} className="stat-item-v3 group flex flex-col items-center text-center opacity-0 translate-y-10">
+            <div
+              key={index}
+              className="stat-item-v3 group flex flex-col items-center text-center opacity-0 translate-y-10"
+            >
               <div className="flex items-baseline justify-center">
                 {stat.prefix && (
-                  <span className="text-2xl md:text-3xl font-black text-white mr-0.5">{stat.prefix}</span>
+                  <span className="mr-0.5 text-2xl font-black text-white md:text-3xl" style={statTextGlow}>
+                    {stat.prefix}
+                  </span>
                 )}
-                <span className="counter-value-v3 text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter">
+                <span
+                  className="counter-value-v3 text-4xl font-black tracking-tighter text-white md:text-5xl lg:text-6xl"
+                  style={statTextGlow}
+                >
                   0
                 </span>
                 {stat.suffix && (
-                  <span className="text-2xl md:text-3xl font-black text-white ml-0.5">{stat.suffix}</span>
+                  <span className="ml-0.5 text-2xl font-black text-white md:text-3xl" style={statTextGlow}>
+                    {stat.suffix}
+                  </span>
                 )}
               </div>
-              <p className="text-[10px] md:text-xs font-black text-white/40 tracking-[0.4em] uppercase mt-4 max-w-[120px]">
+              <p
+                className="mt-4 max-w-[120px] text-[10px] font-black uppercase tracking-[0.4em] text-white/70 md:text-xs"
+                style={statTextGlow}
+              >
                 {stat.label}
               </p>
               <StatIcon type={stat.iconType} />
